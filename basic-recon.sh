@@ -5,9 +5,10 @@ cat /root/Automatizacion/archivos/todo.txt | sort | uniq > /root/Automatizacion/
 cat /root/Automatizacion/archivos/todo_sindupe.txt | /root/go/bin/httprobe > /root/Automatizacion/archivos/activos.txt;
 /root/go/bin/SubOver -l /root/Automatizacion/archivos/activos.txt > /root/Automatizacion/archivos/takeover.txt;
 /root/go/bin/notify -data /root/Automatizacion/archivos/takeover.txt;
-cat /root/Automatizacion/archivos/activos.txt subdominios.txt > /root/Automatizacion/archivos/todos_los_dominios.txt;
-cat /root/Automatizacion/archivos/todos_los_dominios.txt | /root/go/bin/waybackurls | grep "="  | egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|icon|pdf|svg|txt|js)" > /root/Automatizacion/archivos/urls_wayback.txt;
+cat /root/Automatizacion/archivos/activos.txt /root/Automatizacion/subdominios.txt > /root/Automatizacion/archivos/todos_los_dominios.txt;
+echo Buscando URLs | notify;
+cat /root/Automatizacion/archivos/todos_los_dominios.txt | /root/go/bin/waybackurls | grep "=" | egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|icon|pdf|svg|txt|js)" > >
+echo Buscaremos xss | notify;
 cat /root/Automatizacion/archivos/urls_wayback.txt | /root/go/bin/kxss > /root/Automatizacion/archivos/kxss.txt;
 cat /root/Automatizacion/archivos/kxss.txt | grep ">" > kxss_filtrado.txt;
-echo Notificacion eviada a telegram;
 /root/go/bin/notify -data /root/Automatizacion/archivos/kxss_filtrado.txt;
